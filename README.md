@@ -1,4 +1,4 @@
-# VALIDATE EXSERCISE
+# VALIDATE EXERCISE
 
 Create a simple website to allow user to validate their implementation for Go exercise during the time they learn Go.
 

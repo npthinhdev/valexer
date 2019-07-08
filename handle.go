@@ -7,10 +7,6 @@ import (
 	"net/http"
 )
 
-func init() {
-	
-}
-
 func getTemplates() *template.Template {
 	return template.Must(template.ParseGlob("templates/*.html"))
 }

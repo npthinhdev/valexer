@@ -1,0 +1,23 @@
+package rephonenum
+
+import "testing"
+
+func TestSolution(t *testing.T) {
+	var testcase = []struct {
+		name, given, want string
+	}{
+		{name: "TC1:", given: "00-44 48 5555 8361", want: "004-448-555-583-61"},
+		{name: "TC2:", given: "0 - 22 1985--324", want: "022-198-53-24"},
+		{name: "TC3:", given: "555372654", want: "555-372-654"},
+		{name: "TC4:", given: "1234", want: "12-34"},
+		{name: "TC5:", given: "12", want: "12"},
+	}
+	for _, tc := range testcase {
+		t.Run(tc.name, func(t *testing.T) {
+			got := Solution(tc.given)
+			if got != tc.want {
+				t.Errorf("Solution(%v) = %v, want %v", tc.given, got, tc.want)
+			}
+		})
+	}
+}

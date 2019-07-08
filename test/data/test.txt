@@ -1,0 +1,50 @@
+package main
+
+import "testing"
+
+func main() {
+	matchAll := func(string, string) (bool, error) { return true, nil }
+	tests := []testing.InternalTest{{F: TestSolution}}
+	testing.Main(matchAll, tests, nil, nil)
+}
+
+func TestSolution(t *testing.T) {
+	var testcase = []struct {
+		name  string
+		given []int
+		want  int
+	}{
+		{name: "TC1:", given: []int{1, 2, 3, 4, 5}, want: 5},
+		{name: "TC2:", given: []int{5, 4, 3, 2, 1}, want: 1},
+		{name: "TC3:", given: []int{2, 1, 3, 5, 4}, want: 3},
+		{name: "TC4:", given: []int{2, 3, 4, 1, 5}, want: 2},
+		{name: "TC5:", given: []int{1, 3, 4, 2, 5}, want: 3},
+	}
+	for _, tc := range testcase {
+		t.Run(tc.name, func(t *testing.T) {
+			got := Solution(tc.given)
+			if got != tc.want {
+				t.Errorf("Solution(%v) = %v, want %v", tc.given, got, tc.want)
+			}
+		})
+	}
+}
+
+func Solution(a []int) int {
+	count := 0
+	for idx := 1; idx < len(a); idx++ {
+		if isShine(idx, a[:idx]) {
+			count++
+		}
+	}
+	return count + 1
+}
+
+func isShine(k int, sub []int) bool {
+	for _, value := range sub {
+		if value > k {
+			return false
+		}
+	}
+	return true
+}

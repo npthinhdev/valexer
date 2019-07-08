@@ -1,0 +1,7 @@
+package main
+
+func main() {
+	matchAll := func(string, string) (bool, error) { return true, nil }
+	tests := []testing.InternalTest{{F: TestSolution}}
+	testing.Main(matchAll, tests, nil, nil)
+}

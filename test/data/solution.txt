@@ -1,0 +1,32 @@
+package main
+
+import (
+	"strings"
+)
+
+// Solution for rephonenum
+func Solution(s string) string {
+	var result string
+	s = strings.ReplaceAll(s, " ", "")
+	s = strings.ReplaceAll(s, "-", "")
+	lenNum := len(s)
+	if lenNum%3 == 2 {
+		result = addHead(s, lenNum-2)
+		result += s[lenNum-2:]
+	} else if lenNum%3 == 1 {
+		result = addHead(s, lenNum-4)
+		result += s[lenNum-4:lenNum-2] + "-" + s[lenNum-2:]
+	} else {
+		result = addHead(s, lenNum-3)
+		result += s[lenNum-3:]
+	}
+	return result
+}
+
+func addHead(s string, n int) string {
+	var result string
+	for idx := 0; idx < n; idx += 3 {
+		result += s[idx:idx+3] + "-"
+	}
+	return result
+}

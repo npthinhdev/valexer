@@ -13,6 +13,7 @@ func getRouter() *mux.Router {
 	r.PathPrefix("/static/").Handler(s)
 	// Route path
 	r.HandleFunc("/", indexView)
-	r.HandleFunc("/admin", adminView)
+	r.HandleFunc("/admin/", adminView)
+	r.HandleFunc("/exercise/", exerView)
 	return r
 }

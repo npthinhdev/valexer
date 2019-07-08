@@ -7,9 +7,8 @@ import (
 // Declare templates
 var tmlp = getTemplates()
 
-type context struct {
-	Title string
-}
+// Context hold value in template
+type Context map[string]string
 
 func main() {
 	r := getRouter()

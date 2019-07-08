@@ -34,7 +34,7 @@ Requirements:
 - "/api/{id}" DELETE: remove a exercise
 
 ### EXECUTE:
-- "os/exec" library to run cmd in function
+- Using API "/complie" on webstie play.golang.org
 
 ### TEMPLATE:
 - "template/html" library

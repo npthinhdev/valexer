@@ -15,7 +15,7 @@ Requirements:
 - UI: HTML - Go server side rendering (using template/html)
 - DB: MongoDB
 - Deployment: Docker
-- Run/build go code: use API from play.golang.org
+- Run/build go code: use API from [play.golang.org](https://play.golang.org)
 
 ## DESIGN
 ### ROUTING:
@@ -34,7 +34,7 @@ Requirements:
 - "/api/{id}" DELETE: remove a exercise
 
 ### EXECUTE:
-- Using API "/complie" on webstie play.golang.org
+- Using API "/complie" on webstie [play.golang.org](https://play.golang.org)
 
 ### TEMPLATE:
 - "template/html" library
@@ -44,3 +44,11 @@ Requirements:
 
 ### DEPLOY:
 - Docker
+
+## BUILD
+You can clone project and type command line below to run it:
+
+```bash
+go run server.go
+```
+Open your browser and access to link [localhost:8080](http://localhost:8080)

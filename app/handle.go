@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"html/template"
@@ -6,6 +6,12 @@ import (
 	"log"
 	"net/http"
 )
+
+// Declare templates
+var tmlp = getTemplates()
+
+// Context hold value in template
+type Context map[string]string
 
 func getTemplates() *template.Template {
 	return template.Must(template.ParseGlob("templates/*.html"))

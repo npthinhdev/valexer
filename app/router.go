@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func getRouter() *mux.Router {
+func GetRouter() *mux.Router {
 	r := mux.NewRouter()
 	// Static files
 	s := http.StripPrefix("/static/", http.FileServer(http.Dir("static")))

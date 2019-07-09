@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// GetRouter assign route path
 func GetRouter() *mux.Router {
 	r := mux.NewRouter()
 	// Static files

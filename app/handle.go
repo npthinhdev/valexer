@@ -10,25 +10,24 @@ import (
 // Declare templates
 var tmlp = getTemplates()
 
-// Context hold value in template
-type Context map[string]string
+type context map[string]string
 
 func getTemplates() *template.Template {
 	return template.Must(template.ParseGlob("templates/*.html"))
 }
 
 func indexView(w http.ResponseWriter, r *http.Request) {
-	ctx := Context{"Title": "Homepage"}
+	ctx := context{"Title": "Homepage"}
 	tmlp.ExecuteTemplate(w, "index.html", ctx)
 }
 
 func adminView(w http.ResponseWriter, r *http.Request) {
-	ctx := Context{"Title": "Adminsite"}
+	ctx := context{"Title": "Adminsite"}
 	tmlp.ExecuteTemplate(w, "admin.html", ctx)
 }
 
 func exerView(w http.ResponseWriter, r *http.Request) {
-	ctx := Context{"Title": "Exercise"}
+	ctx := context{"Title": "Exercise"}
 	if r.Method == "POST" {
 		r.ParseMultipartForm(1 << 20)
 		file, handler, err := r.FormFile("file")

@@ -15,6 +15,10 @@ func GetRouter() *mux.Router {
 	// Route path
 	r.HandleFunc("/", indexView)
 	r.HandleFunc("/admin/", adminView)
+	r.HandleFunc("/admin/create/", createView)
 	r.HandleFunc("/exercise/", exerView)
+	// API path
+	r.HandleFunc("/api/", getExers).Methods("GET")
+	r.HandleFunc("/api/", createExer).Methods("POST")
 	return r
 }

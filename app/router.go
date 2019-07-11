@@ -22,6 +22,6 @@ func GetRouter() *mux.Router {
 	r.HandleFunc("/api/", createExer).Methods("POST")
 	r.HandleFunc("/api/", getExers).Methods("GET")
 	r.HandleFunc("/api/{id}/", getExer).Methods("GET")
-	r.HandleFunc("/api/{id}/", updateExer).Methods("POST")
+	r.HandleFunc("/api/{id}/", updateExer).Methods("PUT")
 	return r
 }

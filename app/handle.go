@@ -34,6 +34,16 @@ func apiPOST(apiURL string, data url.Values) []byte {
 	return body
 }
 
+func apiPUT(apiURL string, data url.Values) []byte {
+	client := &http.Client{}
+	r, _ := http.NewRequest("PUT", apiURL, strings.NewReader(data.Encode()))
+	r.Header.Add("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+	resp, _ := client.Do(r)
+	body, _ := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	return body
+}
+
 func apiGET(apiURL string) []byte {
 	client := &http.Client{}
 	r, _ := http.NewRequest("GET", apiURL, nil)
@@ -225,7 +235,7 @@ func updateView(w http.ResponseWriter, r *http.Request) {
 		data.Set("title", r.Form.Get("title"))
 		data.Set("description", r.Form.Get("description"))
 		data.Set("testcase", r.Form.Get("testcase"))
-		body := apiPOST(apiURL, data)
+		body := apiPUT(apiURL, data)
 		log.Println(string(body))
 		http.Redirect(w, r, "/admin/", http.StatusFound)
 	} else {

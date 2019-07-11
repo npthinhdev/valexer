@@ -1,0 +1,23 @@
+{{ template "head" . }}
+<main class="container">
+  <h1 class="text-center">UPDATE EXERCISE</h1>
+  {{ template "navbar" }}
+  <hr>
+  <form action="." method="post">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" name="title" class="form-control" id="title" value="{{ .Exer.Title }}" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea name="description" class="form-control" id="description" rows="5" required>{{ .Exer.Description }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="testcase">Testcase:</label>
+      <textarea name="testcase" class="form-control" id="testcase" rows="10" required>{{ .Exer.Testcase }}</textarea>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-danger mt-3">Send</button>
+  </form>
+</main>
+{{ template "foot" }}

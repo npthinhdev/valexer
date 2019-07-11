@@ -28,7 +28,7 @@ func main() {
 	mess := fmt.Sprintf("%s%s\n", testcase, solution)
 	re := regexp.MustCompile(`(package.*)|(import.*")|(import(?s).*"\n\))`)
 	mess = string(head) + re.ReplaceAllString(mess, "")
-	
+
 	reFormat(&mess)
 	msg := getTesting(&mess)
 	fmt.Print(msg)
@@ -68,12 +68,16 @@ func getTesting(mess *string) string {
 	body := getPost(apiURL, data)
 
 	var msg struct {
+		Errors string
 		Events []struct {
 			Message string `json:"message"`
 		}
 	}
 
 	_ = json.Unmarshal(body, &msg)
+	if msg.Errors != "" {
+		return msg.Errors
+	}
 	return msg.Events[0].Message
 }
 

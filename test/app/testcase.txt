@@ -1,16 +1,15 @@
-package rephonenum
+package business
 
 import "testing"
 
 func TestSolution(t *testing.T) {
 	var testcase = []struct {
-		name, given, want string
+		name  string
+		given string
+		want  int
 	}{
-		{name: "TC1:", given: "00-44 48 5555 8361", want: "004-448-555-583-61"},
-		{name: "TC2:", given: "0 - 22 1985--324", want: "022-198-53-24"},
-		{name: "TC3:", given: "555372654", want: "555-372-654"},
-		{name: "TC4:", given: "1234", want: "12-34"},
-		{name: "TC5:", given: "12", want: "12"},
+		{name: "TC1:", given: "Sun 10:00-20:00\nFri 05:00-10:00\nFri 16:30-23:50\nSat 10:00-24:00\nSun 01:00-04:00\nSat 02:00-06:00\nTue 03:30-18:15\nTue 19:00-20:00\nWed 04:25-15:14\nWed 15:14-22:40\nThu 00:00-23:59\nMon 05:00-13:00\nMon 15:00-21:00", want: 505},
+		{name: "TC2:", given: "Mon 01:00-23:00\nTue 01:00-23:00\nWed 01:00-23:00\nThu 01:00-23:00\nFri 01:00-23:00\nSat 01:00-23:00\nSun 01:00-21:00", want: 180},
 	}
 	for _, tc := range testcase {
 		t.Run(tc.name, func(t *testing.T) {

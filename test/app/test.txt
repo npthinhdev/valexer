@@ -1,8 +1,10 @@
 package main
 
 import (
+	"sort"
 	"strings"
 	"testing"
+	"time"
 )
 
 func main() {
@@ -13,13 +15,12 @@ func main() {
 
 func TestSolution(t *testing.T) {
 	var testcase = []struct {
-		name, given, want string
+		name  string
+		given string
+		want  int
 	}{
-		{name: "TC1:", given: "00-44 48 5555 8361", want: "004-448-555-583-61"},
-		{name: "TC2:", given: "0 - 22 1985--324", want: "022-198-53-24"},
-		{name: "TC3:", given: "555372654", want: "555-372-654"},
-		{name: "TC4:", given: "1234", want: "12-34"},
-		{name: "TC5:", given: "12", want: "12"},
+		{name: "TC1:", given: "Sun 10:00-20:00\nFri 05:00-10:00\nFri 16:30-23:50\nSat 10:00-24:00\nSun 01:00-04:00\nSat 02:00-06:00\nTue 03:30-18:15\nTue 19:00-20:00\nWed 04:25-15:14\nWed 15:14-22:40\nThu 00:00-23:59\nMon 05:00-13:00\nMon 15:00-21:00", want: 505},
+		{name: "TC2:", given: "Mon 01:00-23:00\nTue 01:00-23:00\nWed 01:00-23:00\nThu 01:00-23:00\nFri 01:00-23:00\nSat 01:00-23:00\nSun 01:00-21:00", want: 180},
 	}
 	for _, tc := range testcase {
 		t.Run(tc.name, func(t *testing.T) {
@@ -31,29 +32,53 @@ func TestSolution(t *testing.T) {
 	}
 }
 
-// Solution for rephonenum
-func Solution(s string) string {
-	var result string
-	s = strings.ReplaceAll(s, " ", "")
-	s = strings.ReplaceAll(s, "-", "")
-	lenNum := len(s)
-	if lenNum%3 == 2 {
-		result = addHead(s, lenNum-2)
-		result += s[lenNum-2:]
-	} else if lenNum%3 == 1 {
-		result = addHead(s, lenNum-4)
-		result += s[lenNum-4:lenNum-2] + "-" + s[lenNum-2:]
-	} else {
-		result = addHead(s, lenNum-3)
-		result += s[lenNum-3:]
+// Solution for business
+func Solution(s string) int {
+	arr := parsArr(s)
+	sort.Ints(arr)
+
+	max := arr[0]
+	for idx := 1; idx < len(arr)-1; idx += 2 {
+		delta := arr[idx+1] - arr[idx]
+		if max < delta {
+			max = delta
+		}
 	}
-	return result
+	delta := 10080 - arr[len(arr)-1]
+	if max < delta {
+		max = delta
+	}
+
+	return max
 }
 
-func addHead(s string, n int) string {
-	var result string
-	for idx := 0; idx < n; idx += 3 {
-		result += s[idx:idx+3] + "-"
+func parsArr(s string) []int {
+	var arr []int
+	pars := strings.Split(s, "\n")
+	for _, value := range pars {
+		sinceM, untilM := parsElm(value)
+		arr = append(arr, sinceM, untilM)
 	}
-	return result
+	return arr
+}
+
+func parsElm(a string) (sinceM, untilM int) {
+	day := [7]string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
+	elm := strings.Split(a, " ")
+	sElm := strings.Split(elm[1], "-")
+
+	eDay := elm[0]
+	pSince, _ := time.ParseDuration(strings.Replace(sElm[0], ":", "h", 1) + "m")
+	pUntil, _ := time.ParseDuration(strings.Replace(sElm[1], ":", "h", 1) + "m")
+	eSince := int(pSince.Minutes())
+	eUntil := int(pUntil.Minutes())
+
+	idx := 0
+	for day[idx] != eDay {
+		idx++
+	}
+	eSince += idx * 1440
+	eUntil += idx * 1440
+
+	return eSince, eUntil
 }

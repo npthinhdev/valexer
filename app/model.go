@@ -4,6 +4,8 @@ import (
 	"context"
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -11,9 +13,10 @@ import (
 
 // Exercise is struct for data
 type Exercise struct {
-	Title       string
-	Description string
-	Testcase    string
+	ID          interface{} `bson:"_id,omitempty"`
+	Title       string      `bson:"title"`
+	Description string      `bson:"description"`
+	Testcase    string      `bson:"testcase"`
 }
 
 var collection *mongo.Collection
@@ -63,4 +66,20 @@ func getDBExers() ([]*Exercise, error) {
 		return nil, err
 	}
 	return results, nil
+}
+
+func getDBExer(id string) (*Exercise, error) {
+	var result Exercise
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	filter := bson.D{{Key: "_id", Value: objID}}
+	err = collection.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return &result, nil
 }

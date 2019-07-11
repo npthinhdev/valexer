@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func createExer(w http.ResponseWriter, r *http.Request) {
@@ -30,12 +32,34 @@ func getExers(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	exerBytes, err := json.Marshal(exers)
+	exersByte, err := json.Marshal(exers)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(exerBytes)
+	w.Write(exersByte)
+}
+
+func getExer(w http.ResponseWriter, r *http.Request) {
+	keys := mux.Vars(r)
+	id := keys["id"]
+	if len(id) < 1 {
+		log.Println("Url id is missing")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	exer, err := getDBExer(id)
+	if err != nil {
+		log.Println(err)
+	}
+	exerByte, err := json.Marshal(exer)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(exerByte)
 }

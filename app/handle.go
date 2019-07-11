@@ -44,12 +44,7 @@ func apiGET(apiURL string) []byte {
 	return body
 }
 
-func formContent(r *http.Request) ([]byte, error) {
-	err := r.ParseForm()
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
+func formFile(r *http.Request) ([]byte, error) {
 	file, handler, err := r.FormFile("file")
 	if err != nil {
 		log.Println(err)
@@ -57,12 +52,12 @@ func formContent(r *http.Request) ([]byte, error) {
 	}
 	defer file.Close()
 	log.Println(handler.Header)
-	fileContent, err := ioutil.ReadAll(file)
+	content, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-	return fileContent, nil
+	return content, nil
 }
 
 func getTesting(id string, solution []byte) string {
@@ -81,7 +76,7 @@ func getTesting(id string, solution []byte) string {
 	re := regexp.MustCompile(`(package.*)|(import.*")|(import(?s).*"\n\))`)
 	mess = string(head) + re.ReplaceAllString(mess, "")
 	getFormat(&mess)
-	result := getComplie(&mess)
+	result := getCompile(&mess)
 	return result
 }
 
@@ -98,7 +93,7 @@ func getFormat(mess *string) {
 	*mess = msg.Body
 }
 
-func getComplie(mess *string) string {
+func getCompile(mess *string) string {
 	apiURL := "https://play.golang.org/compile"
 	data := url.Values{}
 	data.Set("body", *mess)
@@ -144,7 +139,11 @@ func createView(w http.ResponseWriter, r *http.Request) {
 	ctx := Context{"Title": "Create new exercise"}
 	if r.Method == "POST" {
 		apiURL := "http://localhost:8080/api/"
-		fileContent, err := formContent(r)
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err)
+		}
+		fileContent, err := formFile(r)
 		if err != nil {
 			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
@@ -155,7 +154,7 @@ func createView(w http.ResponseWriter, r *http.Request) {
 		data.Set("description", r.Form.Get("description"))
 		data.Set("testcase", string(fileContent))
 		body := apiPOST(apiURL, data)
-		fmt.Println(string(body))
+		log.Println(string(body))
 		http.Redirect(w, r, "/admin/", http.StatusFound)
 	} else {
 		tmlp.ExecuteTemplate(w, "create.html", ctx)
@@ -181,7 +180,11 @@ func exerView(w http.ResponseWriter, r *http.Request) {
 	_ = json.Unmarshal(body, &exer)
 	ctx["Exer"] = exer
 	if r.Method == "POST" {
-		fileContent, err := formContent(r)
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err)
+		}
+		fileContent, err := formFile(r)
 		if err != nil {
 			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
@@ -192,5 +195,40 @@ func exerView(w http.ResponseWriter, r *http.Request) {
 		tmlp.ExecuteTemplate(w, "exercise.html", ctx)
 	} else {
 		tmlp.ExecuteTemplate(w, "exercise.html", ctx)
+	}
+}
+
+func updateView(w http.ResponseWriter, r *http.Request) {
+	ctx := Context{"Title": "Update exercise"}
+	keys := mux.Vars(r)
+	id := keys["id"]
+	if len(id) < 1 {
+		log.Println("Url id is missing")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	apiURL := fmt.Sprintf("http://localhost:8080/api/%s/", id)
+	body := apiGET(apiURL)
+	if string(body) == "null" {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	exer := Exercise{}
+	_ = json.Unmarshal(body, &exer)
+	ctx["Exer"] = exer
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			log.Println(err)
+		}
+		data := url.Values{}
+		data.Set("title", r.Form.Get("title"))
+		data.Set("description", r.Form.Get("description"))
+		data.Set("testcase", r.Form.Get("testcase"))
+		body := apiPOST(apiURL, data)
+		log.Println(string(body))
+		http.Redirect(w, r, "/admin/", http.StatusFound)
+	} else {
+		tmlp.ExecuteTemplate(w, "update.html", ctx)
 	}
 }

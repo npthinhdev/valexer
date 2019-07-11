@@ -83,3 +83,25 @@ func getDBExer(id string) (*Exercise, error) {
 	}
 	return &result, nil
 }
+
+func updateDBExer(id string, exer *Exercise) error {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	filter := bson.D{{Key: "_id", Value: objID}}
+	update := bson.D{
+		{Key: "$set", Value: bson.D{
+			{Key: "title", Value: exer.Title},
+			{Key: "description", Value: exer.Description},
+			{Key: "testcase", Value: exer.Testcase},
+		}},
+	}
+	_, err = collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
+}

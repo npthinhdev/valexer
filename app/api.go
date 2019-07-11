@@ -24,7 +24,7 @@ func createExer(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Fprintln(w, "Success")
+	fmt.Fprint(w, "Create success exercise")
 }
 
 func getExers(w http.ResponseWriter, r *http.Request) {
@@ -62,4 +62,29 @@ func getExer(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(exerByte)
+}
+
+func updateExer(w http.ResponseWriter, r *http.Request) {
+	keys := mux.Vars(r)
+	id := keys["id"]
+	if len(id) < 1 {
+		log.Println("Url id is missing")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	exer := Exercise{}
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	exer.Title = r.Form.Get("title")
+	exer.Description = r.Form.Get("description")
+	exer.Testcase = r.Form.Get("testcase")
+	err = updateDBExer(id, &exer)
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Fprint(w, "Update success exercise")
 }

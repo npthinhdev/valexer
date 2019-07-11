@@ -105,3 +105,18 @@ func updateDBExer(id string, exer *Exercise) error {
 	}
 	return nil
 }
+
+func deleteDBExer(id string) error {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	filter := bson.D{{Key: "_id", Value: objID}}
+	_, err = collection.DeleteOne(context.TODO(), filter, nil)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
+}

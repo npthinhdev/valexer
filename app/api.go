@@ -88,3 +88,18 @@ func updateExer(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprint(w, "Update success exercise")
 }
+
+func deleteExer(w http.ResponseWriter, r *http.Request) {
+	keys := mux.Vars(r)
+	id := keys["id"]
+	if len(id) < 1 {
+		log.Println("Url id is missing")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	err := deleteDBExer(id)
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Fprint(w, "Delete success exercise")
+}

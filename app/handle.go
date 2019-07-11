@@ -44,6 +44,15 @@ func apiPUT(apiURL string, data url.Values) []byte {
 	return body
 }
 
+func apiDELETE(apiURL string) []byte {
+	client := &http.Client{}
+	r, _ := http.NewRequest("DELETE", apiURL, nil)
+	resp, _ := client.Do(r)
+	body, _ := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	return body
+}
+
 func apiGET(apiURL string) []byte {
 	client := &http.Client{}
 	r, _ := http.NewRequest("GET", apiURL, nil)
@@ -241,4 +250,17 @@ func updateView(w http.ResponseWriter, r *http.Request) {
 	} else {
 		tmlp.ExecuteTemplate(w, "update.html", ctx)
 	}
+}
+
+func deleteView(w http.ResponseWriter, r *http.Request) {
+	keys := mux.Vars(r)
+	id := keys["id"]
+	if len(id) < 1 {
+		log.Println("Url id is missing")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	apiURL := fmt.Sprintf("http://localhost:8080/api/%s/", id)
+	_ = apiDELETE(apiURL)
+	http.Redirect(w, r, "/admin/", http.StatusFound)
 }

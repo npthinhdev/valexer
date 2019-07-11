@@ -1,6 +1,7 @@
 {{ template "head" . }}
 <main class="container">
   <h1 class="text-center">EXERCISE PAGE</h1>
+  {{ template "navbar" }}
   <hr>
   <p><strong>Title:</strong> {{ .Exer.Title }}</p>
   <p><strong>Description:</strong> <pre>{{ .Exer.Description }}</pre></p>

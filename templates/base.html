@@ -11,6 +11,22 @@
 <body>
 {{ end }}
 
+{{ define "navbar" }}
+<nav class="navbar navbar-expand navbar-light bg-light justify-content-center">
+  <ul class="navbar-nav">
+    <li class="navbar-item">
+      <a href="/" class="nav-link">Home</a>
+    </li>
+    <li class="navbar-item">
+      <a href="/admin/" class="nav-link">Admin</a>
+    </li>
+    <li class="navbar-item">
+      <a href="/admin/create/" class="nav-link">Create</a>
+    </li>
+  </ul>
+</nav>
+{{ end }}
+
 {{ define "foot" }}
   <script src="/static/js/jquery-3.4.1.min.js"></script>
   <script src="/static/js/popper.min.js"></script>

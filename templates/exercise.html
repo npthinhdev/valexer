@@ -2,15 +2,15 @@
 <main class="container">
   <h1 class="text-center">EXERCISE PAGE</h1>
   <hr>
-  <p><strong>Title:</strong> Test a simple code</p>
-  <p><strong>Description:</strong> This is description for this solution test code</p>
+  <p><strong>Title:</strong> {{ .Exer.Title }}</p>
+  <p><strong>Description:</strong> <pre>{{ .Exer.Description }}</pre></p>
   <form action="" method="post" enctype="multipart/form-data">
     <input type="file" name="file" id="file" required>
     <br>
     <button type="submit" class="btn btn-danger mt-3">Send</button>
   </form>
-  {{ if .Code }}
-  <pre class="mt-3">{{ .Code }}</pre>
+  {{ if .Result }}
+  <pre class="mt-3">{{ .Result }}</pre>
   {{ end }}
 </main>
 {{ template "foot" }}

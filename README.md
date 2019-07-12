@@ -1,6 +1,6 @@
 # VALIDATE EXERCISE
 
-Create a simple website to allow user to validate their implementation for Go exercise during the time they learn Go.
+Create a simple website to allow user to validate their implementation for Go exercise during the time they learn Go
 
 Admin create/update/delete exercise with:
 - Title
@@ -9,7 +9,7 @@ Admin create/update/delete exercise with:
 
 Candidate upload solution.go, system validate their solution by running with solution_test.go
 
-Requirements:
+## REQUIREMENT
 - Lang: Go
 - Web library: gorialla/mux
 - UI: HTML - Go server side rendering (using template/html)
@@ -17,24 +17,24 @@ Requirements:
 - Deployment: Docker
 - Run/build go code: use API from [play.golang.org](https://play.golang.org)
 
-## DESIGN
+## STRUCTURE
 ### ROUTING:
-- "/": homepage, show list all exercises with title
-- "/admin": the site for admin manage exercises
-    + "/create": create new exercise
-    + "/edit": edit exist exercise
+- "/": show list all exercises with title
+- "/admin/": show list all exercises with title
+    + "/delete/{id}/": delete a exercise
+    + "/create/": create new exercise
+    + "/{id}/": edit exercise
 - "/exercise/{id}": show a exercise have id in database
 
 ### API:
-- "/api" GET: get all exercise
-- "/api" PUT: create new exercise
-- "/api/{id}" GET: get a exercise have id in database
-- "/api/{id}" POST: run function to test solution
-- "/api/{id}" PUT: update a exercise
-- "/api/{id}" DELETE: remove a exercise
+- "/api/" GET: get all exercise
+- "/api/" POST: create new exercise
+    + "/{id}/" GET: get a exercise have id in database
+    + "/{id}/" PUT: update a exercise
+    + "/{id}/" DELETE: remove a exercise
 
 ### EXECUTE:
-- Using API "/complie" on webstie [play.golang.org](https://play.golang.org)
+- Using API "/fmt" and "/complie" on webstie [play.golang.org](https://play.golang.org) to reformat and run test code
 
 ### TEMPLATE:
 - "template/html" library
@@ -45,10 +45,14 @@ Requirements:
 ### DEPLOY:
 - Docker
 
+### LIBRARY:
+- [github.com/gorilla/mux](https://github.com/gorilla/mux)
+- [go.mongodb.org/mongo-driver](https://github.com/mongodb/mongo-go-driver)
+
 ## BUILD
-You can clone project and type command line below to run it:
+You can clone project and type command line below to run it in Docker:
 
 ```bash
-go run server.go
+$ docker-compose up -d
 ```
 Open your browser and access to link [localhost:8080](http://localhost:8080)

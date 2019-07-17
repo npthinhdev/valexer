@@ -2,7 +2,8 @@ package main
 
 import (
 	"net/http"
-	"valexer/app"
+
+	"github.com/npthinhdev/valexer/app"
 )
 
 func main() {

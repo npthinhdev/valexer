@@ -1,5 +1,5 @@
 FROM golang:latest
-WORKDIR $GOPATH/src/valexer
+WORKDIR $GOPATH/src/github.com/npthinhdev/valexer
 COPY . .
 RUN go get -u github.com/golang/dep/cmd/dep
 RUN dep ensure -vendor-only

@@ -10,5 +10,7 @@ services:
       - 8080:8080
   mongo:
     image: mongo:latest
+    volumes:
+      - ./db:/data/db
     ports:
       - 27017:27017

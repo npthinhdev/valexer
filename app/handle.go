@@ -81,11 +81,11 @@ func formFile(r *http.Request) ([]byte, error) {
 
 func getTesting(id string, solution []byte) string {
 	head := `package main
-	func main() {
-		matchAll := func(string, string) (bool, error) { return true, nil }
-		tests := []testing.InternalTest{{F: TestSolution}}
-		testing.Main(matchAll, tests, nil, nil)
-	}`
+func main() {
+	matchAll := func(string, string) (bool, error) { return true, nil }
+	tests := []testing.InternalTest{{F: TestSolution}}
+	testing.Main(matchAll, tests, nil, nil)
+}`
 	apiURL := fmt.Sprintf("http://localhost:8080/api/%s/", id)
 	body := apiGET(apiURL)
 	exer := Exercise{}

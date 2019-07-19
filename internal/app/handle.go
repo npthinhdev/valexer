@@ -21,7 +21,7 @@ var tmlp = getTemplates()
 type Context map[string]interface{}
 
 func getTemplates() *template.Template {
-	return template.Must(template.ParseGlob("templates/*.html"))
+	return template.Must(template.ParseGlob("web/template/*.html"))
 }
 
 func apiPOST(apiURL string, data url.Values) []byte {

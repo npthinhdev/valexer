@@ -6,11 +6,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// GetRouter assign route path
-func GetRouter() *mux.Router {
+// NewRouter assign route path
+func NewRouter() *mux.Router {
 	r := mux.NewRouter()
 	// Static files
-	s := http.StripPrefix("/static/", http.FileServer(http.Dir("static")))
+	s := http.StripPrefix("/static/", http.FileServer(http.Dir("web/static")))
 	r.PathPrefix("/static/").Handler(s)
 	// Route path
 	r.HandleFunc("/", indexView)

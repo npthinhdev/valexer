@@ -23,7 +23,6 @@
 /Godeps/
 
 ### Database ###
-valexer
-/db/
+/data/
 
 # End of https://www.gitignore.io/api/go

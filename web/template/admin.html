@@ -4,7 +4,7 @@
   {{ template "navbar" }}
   <hr>
   {{ range .Exers }}
-  <p>Exercise: <a href="/admin/{{ .ID }}/">{{ .Title }}</a></p>
+  <p>Exercise: <a href="/exercise/edit/{{ .ID }}">{{ .Title }}</a></p>
   {{ end }}
 </main>
 {{ template "foot" }}

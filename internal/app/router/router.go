@@ -1,9 +1,11 @@
 package router
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/npthinhdev/valexer/internal/app/api"
 	"github.com/npthinhdev/valexer/internal/app/router/handler/admin"
 	"github.com/npthinhdev/valexer/internal/app/router/handler/exercise"
 	"github.com/npthinhdev/valexer/internal/app/router/handler/index"
@@ -43,9 +45,14 @@ func Init() (http.Handler, error) {
 		{"/exercise/create/", post, exerciseView.CreatePOST},
 		{"/exercise/edit/{id}", get, exerciseView.UpdateGET},
 		{"/exercise/edit/{id}", post, exerciseView.UpdatePOST},
+		{"/exercise/delete/{id}", get, exerciseView.Delete},
 	}
 
 	r := mux.NewRouter()
+	err := api.Load(r)
+	if err != nil {
+		log.Println(err)
+	}
 	for _, rt := range routes {
 		h := rt.handler
 		r.HandleFunc(rt.path, h).Methods(rt.method)

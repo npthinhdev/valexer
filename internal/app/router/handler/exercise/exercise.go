@@ -119,3 +119,17 @@ func (h *Handler) UpdatePOST(w http.ResponseWriter, r *http.Request) {
 	// log.Println(string(body))
 	http.Redirect(w, r, "/admin", http.StatusFound)
 }
+
+// Delete render delete page
+func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
+	keys := mux.Vars(r)
+	id := keys["id"]
+	if len(id) < 1 {
+		log.Println("url is not found")
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	// apiURL := fmt.Sprintf("http://localhost:8080/api/%s/", id)
+	// _ = parse.Delete(apiURL)
+	http.Redirect(w, r, "/admin", http.StatusFound)
+}

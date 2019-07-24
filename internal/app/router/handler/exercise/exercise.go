@@ -33,7 +33,7 @@ func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	// apiURL := fmt.Sprintf("http://localhost:8080/api/%s/", id)
+	// apiURL := fmt.Sprintf("http://localhost:8080/api/exercise/%s/", id)
 	// body := parse.Get(apiURL)
 	// if string(body) == "null" {
 	// 	w.WriteHeader(http.StatusNotFound)

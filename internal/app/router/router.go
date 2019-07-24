@@ -12,6 +12,7 @@ import (
 )
 
 type (
+	// InfraConns holds infrastructure services connections like MongoDB, Redis, Kafka,...
 	route struct {
 		path    string
 		method  string
@@ -29,7 +30,7 @@ const (
 )
 
 // Init all router
-func Init() (http.Handler, error) {
+func Init(conns *api.InfraConns) (http.Handler, error) {
 	indexView := index.New()
 	adminView := admin.New()
 	exerciseView := exercise.New()
@@ -49,7 +50,7 @@ func Init() (http.Handler, error) {
 	}
 
 	r := mux.NewRouter()
-	err := api.Load(r)
+	err := api.Load(r, conns)
 	if err != nil {
 		log.Println(err)
 	}

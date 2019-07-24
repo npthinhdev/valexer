@@ -8,10 +8,10 @@ import (
 
 // Repository is an interface of a exercise repository
 type Repository interface {
-	FindByID(ctx context.Context, id string) (*types.Exercise, error)
 	FindAll(ctx context.Context) ([]types.Exercise, error)
+	FindByID(ctx context.Context, id string) (*types.Exercise, error)
 	Create(ctx context.Context, exercise types.Exercise) (string, error)
-	Update(ctx context.Context, id string, exercise types.Exercise) error
+	Update(ctx context.Context, exercise types.Exercise) error
 	Delete(ctx context.Context, id string) error
 }
 
@@ -41,12 +41,12 @@ func (s *Service) Create(ctx context.Context, excercise types.Exercise) (string,
 }
 
 // Update a exercise
-func (s *Service) Update(ctx context.Context, id string, exercise types.Exercise) error {
-	_, err := s.repo.FindByID(ctx, id)
+func (s *Service) Update(ctx context.Context, exercise types.Exercise) error {
+	_, err := s.repo.FindByID(ctx, exercise.ID)
 	if err != nil {
 		return err
 	}
-	return s.repo.Update(ctx, id, exercise)
+	return s.repo.Update(ctx, exercise)
 }
 
 // Delete a exercise

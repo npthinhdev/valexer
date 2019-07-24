@@ -13,8 +13,8 @@ type (
 	service interface {
 		GetAll(ctx context.Context) ([]types.Exercise, error)
 		Get(ctx context.Context, id string) (*types.Exercise, error)
-		Create(ctx context.Context, exercise types.Exercise) error
-		Update(ctx context.Context, id string, exercise types.Exercise) error
+		Create(ctx context.Context, exercise types.Exercise) (string, error)
+		Update(ctx context.Context, exercise types.Exercise) error
 		Delete(ctx context.Context, id string) error
 	}
 	// Handler is web handler

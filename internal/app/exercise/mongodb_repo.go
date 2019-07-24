@@ -53,7 +53,7 @@ func (r *MongoRepository) FindByID(ctx context.Context, id string) (*types.Exerc
 	cl := r.client
 	collection := r.collection(cl)
 	filter := bson.D{{Key: "_id", Value: id}}
-	err := collection.FindOne(context.TODO(), filter).Decode(&exercise)
+	err := collection.FindOne(ctx, filter).Decode(&exercise)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func (r *MongoRepository) Update(ctx context.Context, exercise types.Exercise) e
 			{Key: "testcase", Value: exercise.Testcase},
 		}},
 	}
-	_, err := collection.UpdateOne(context.TODO(), filter, update)
+	_, err := collection.UpdateOne(ctx, filter, update)
 	return err
 }
 
@@ -90,6 +90,6 @@ func (r *MongoRepository) Delete(ctx context.Context, id string) error {
 	cl := r.client
 	collection := r.collection(cl)
 	filter := bson.D{{Key: "_id", Value: id}}
-	_, err := collection.DeleteOne(context.TODO(), filter, nil)
+	_, err := collection.DeleteOne(ctx, filter, nil)
 	return err
 }

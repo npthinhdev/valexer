@@ -12,7 +12,6 @@ import (
 )
 
 type (
-	// InfraConns holds infrastructure services connections like MongoDB, Redis, Kafka,...
 	route struct {
 		path    string
 		method  string
@@ -42,6 +41,7 @@ func Init(conns *api.InfraConns) (http.Handler, error) {
 		{"/admin", get, adminView.Index},
 		// exercise
 		{"/exercise/{id}", get, exerciseView.Get},
+		{"/exercise/{id}", post, exerciseView.Post},
 		{"/exercise/create/", get, exerciseView.CreateGET},
 		{"/exercise/create/", post, exerciseView.CreatePOST},
 		{"/exercise/edit/{id}", get, exerciseView.UpdateGET},

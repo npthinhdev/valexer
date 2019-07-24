@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"github.com/npthinhdev/valexer/internal/app/types"
 	"github.com/npthinhdev/valexer/internal/pkg/response"
 )
@@ -37,4 +39,72 @@ func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	response.JSON(w, http.StatusOK, exercises)
+}
+
+// Get handle get exercise HTTP request
+func (h *Handler) Get(w http.ResponseWriter, r *http.Request) {
+	exercise, err := h.srv.Get(r.Context(), mux.Vars(r)["id"])
+	if err != nil {
+		log.Panicln(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	response.JSON(w, http.StatusOK, exercise)
+}
+
+// Create handle insert exercise HTTP Request
+func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
+	var exercise types.Exercise
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	exercise.Title = r.Form.Get("title")
+	exercise.Description = r.Form.Get("description")
+	exercise.Testcase = r.Form.Get("testcase")
+
+	id, err := h.srv.Create(r.Context(), exercise)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	exercise.ID = id
+	response.JSON(w, http.StatusCreated, nil)
+}
+
+// Update handle modify exercise HTTP Request
+func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
+	var exercise types.Exercise
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	exercise.ID = mux.Vars(r)["id"]
+	exercise.Title = r.Form.Get("title")
+	exercise.Description = r.Form.Get("description")
+	exercise.Testcase = r.Form.Get("testcase")
+
+	err = h.srv.Update(r.Context(), exercise)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	response.JSON(w, http.StatusOK, nil)
+}
+
+// Delete handle delete exercise HTTP Request
+func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
+	err := h.srv.Delete(r.Context(), mux.Vars(r)["id"])
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	response.JSON(w, http.StatusOK, nil)
 }

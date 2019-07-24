@@ -43,6 +43,10 @@ func Load(r *mux.Router, conns *InfraConns) error {
 	routes := []route{
 		// exercise
 		{"/exercise", get, exerciseAPI.GetAll},
+		{"/exercise/{id}", get, exerciseAPI.Get},
+		{"/exercise", post, exerciseAPI.Create},
+		{"/exercise/{id}", put, exerciseAPI.Update},
+		{"/exercise/{id}", delete, exerciseAPI.Delete},
 	}
 
 	for _, rt := range routes {

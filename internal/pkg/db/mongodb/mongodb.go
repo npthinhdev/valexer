@@ -23,9 +23,6 @@ type (
 
 // Dial dial to target server with Monotonic mode
 func Dial(conf *Config) (*mongo.Client, error) {
-	conf.Addrs = "127.0.0.1:27017"
-	conf.Database = "valexer"
-
 	log.Printf("dialing to target MongoDB at: %v, database: %v", conf.Addrs, conf.Database)
 	mongoURL := fmt.Sprintf("mongodb://%s/%s", conf.Addrs, conf.Database)
 	clientOptions := options.Client().ApplyURI(mongoURL)

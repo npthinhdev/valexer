@@ -10,6 +10,7 @@ import (
 
 	"github.com/npthinhdev/valexer/internal/app/api"
 	"github.com/npthinhdev/valexer/internal/app/router"
+	"github.com/npthinhdev/valexer/internal/pkg/config/env"
 	"github.com/npthinhdev/valexer/internal/pkg/db/mongodb"
 )
 
@@ -29,12 +30,8 @@ type srvConfig struct {
 
 func main() {
 	var conf srvConfig
-	// env.Load(&conf)
+	env.Load(&conf)
 
-	conf.HTTP.Address = ""
-	conf.HTTP.Port = 8080
-	conf.DB.Type = "mongodb"
-	
 	conns := initInfraConns(&conf)
 	defer conns.Close()
 

@@ -22,17 +22,17 @@ Candidate upload solution.go, system validate their solution by running with sol
 - `/`: show list all exercises
 - `/admin`: show list all exercises
 - `/exercise`:
-    + `/{id}`: show a exercise with `id` in database
-    + `/create/`: create a new exercise
-    + `/edit/{id}`: edit a exercise
-    + `/delete/{id}/`: delete a exercise
+    + `/{id}`: show an exercise with `id` in database
+    + `/create/`: create an new exercise
+    + `/edit/{id}`: edit an exercise
+    + `/delete/{id}`: delete an exercise
 
 ### API:
 - `/api/exercise` GET: get all exercises
 - `/api/exercise` POST: create a new exercise
-    + `/{id}` GET: get a exercise with `id` in database
-    + `/{id}` PUT: update a exercise
-    + `/{id}` DELETE: delete a exercise
+    + `/{id}` GET: get an exercise with `id` in database
+    + `/{id}` PUT: update an exercise
+    + `/{id}` DELETE: delete an exercise
 
 ### Execute: 
 - Using API "/fmt" and "/complie" on webstie [play.golang.org](https://play.golang.org) to reformat and run test code
